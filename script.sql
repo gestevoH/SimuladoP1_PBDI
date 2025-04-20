@@ -99,3 +99,28 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
+-- 1.4 Escreva um programa que gere um inteiro que representa o ano de nascimento de uma pessoa no intervalo [1980, 2000] 
+-- e gere um inteiro que representa o ano atual no intervalo[2010, 2020]. 
+-- O programa deve exibir a idade da pessoa em anos. Desconsidere detalhes envolvendo dias, meses, anos bissextos etc.
+
+-- DO $$
+-- DECLARE
+--     ano_nasc INT;
+--     ano_atual INT;
+--     lim_inferior_nasc INT := 1980;
+--     lim_superior_nasc INT := 2000;
+--     lim_inferior_atual INT := 2010;
+--     lim_superior_atual INT := 2020;
+--     idade INT;
+-- BEGIN
+--     ano_nasc := lim_inferior_nasc + floor(random() * (lim_superior_nasc - lim_inferior_nasc + 1));
+--     ano_atual := lim_inferior_atual + floor(random() * (lim_superior_atual - lim_inferior_atual + 1));
+--     idade := ano_atual - ano_nasc;
+--     RAISE NOTICE 'Ano de Nascimento: %, Ano Atual: %, Idade em Anos: %', ano_nasc, ano_atual, idade;
+-- END;
+-- $$
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
