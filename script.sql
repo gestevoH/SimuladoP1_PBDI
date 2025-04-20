@@ -47,36 +47,55 @@
 -- O Cursor deverá ser movido para a última tupla
 -- Os dados deverão ser exibidos de baixo para cima
 
-DO $$
-DECLARE
-cur_nome_youtubers REFCURSOR;
-tupla RECORD;
-BEGIN
--- scroll para poder voltar ao início
-	OPEN cur_nome_youtubers SCROLL FOR
-	SELECT youtuber
-	FROM
-	tb_top_youtubers;
-		LOOP
-			FETCH cur_nome_youtubers INTO tupla;
-			EXIT WHEN NOT FOUND;
-			IF tupla.youtuber IS NULL THEN
-			DELETE FROM tb_top_youtubers WHERE CURRENT OF cur_nome_youtubers;
-			END IF;
-		END LOOP;
--- loop para exibir item a item, de baixo para cima
-		LOOP
-			FETCH BACKWARD FROM cur_nome_youtubers INTO tupla;
-			EXIT WHEN NOT FOUND;
-			RAISE NOTICE '%', tupla;
-		END LOOP;
-	CLOSE cur_nome_youtubers;
-END;
-$$
+-- DO $$
+-- DECLARE
+-- cur_nome_youtubers REFCURSOR;
+-- tupla RECORD;
+-- BEGIN
+-- -- scroll para poder voltar ao início
+-- 	OPEN cur_nome_youtubers SCROLL FOR
+-- 	SELECT youtuber
+-- 	FROM
+-- 	tb_top_youtubers;
+-- 		LOOP
+-- 			FETCH cur_nome_youtubers INTO tupla;
+-- 			EXIT WHEN NOT FOUND;
+-- 			IF tupla.youtuber IS NULL THEN
+-- 			DELETE FROM tb_top_youtubers WHERE CURRENT OF cur_nome_youtubers;
+-- 			END IF;
+-- 		END LOOP;
+-- -- loop para exibir item a item, de baixo para cima
+-- 		LOOP
+-- 			FETCH BACKWARD FROM cur_nome_youtubers INTO tupla;
+-- 			EXIT WHEN NOT FOUND;
+-- 			RAISE NOTICE '%', tupla;
+-- 		END LOOP;
+-- 	CLOSE cur_nome_youtubers;
+-- END;
+-- $$
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- 1.3 Um comerciante comprou um produto e quer vendê-lo com um lucro de 45% se o valor da compra for menor que R$20. 
 -- Caso contrário, ele deseja lucro de 30%. Faça um programa que, dado o valor do produto, calcula o valor de venda.
 
+-- DO $$
+-- DECLARE
+-- 	v_valor_compra NUMERIC := 25;
+-- 	v_valor_venda NUMERIC;
+-- 	lucro NUMERIC;
+-- BEGIN
+-- 	IF v_valor_compra < 20 THEN
+-- 		lucro := v_valor_compra * 0.45;
+-- 		v_valor_venda := v_valor_compra + lucro;
+-- 		RAISE NOTICE 'Valor para venda: %', v_valor_venda;
+-- 	ELSE
+-- 		lucro := v_valor_compra * 0.30;
+-- 		v_valor_venda := v_valor_compra + lucro;
+-- 		RAISE NOTICE 'Valor para venda: %', v_valor_venda;
+-- 	END IF;
+-- END;
+-- $$
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 
