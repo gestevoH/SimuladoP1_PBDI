@@ -1,0 +1,82 @@
+-- 1.1 Escreva um cursor que exiba as variáveis rank e youtuber de toda tupla que tiver
+-- video_count pelo menos igual a 1000 e cuja category seja igual a Sports ou Music.
+
+-- DO $$
+-- DECLARE
+-- 	cur_rank_youtuber CURSOR FOR SELECT rank, youtuber FROM tb_top_youtubers WHERE video_count >= 1000
+-- 	AND category IN ('Sports', 'Music');
+-- 	v_rank INT;
+-- 	v_youtuber VARCHAR(200);
+-- 	tupla RECORD;
+-- 	resultado TEXT DEFAULT '';
+-- BEGIN
+-- 	OPEN cur_rank_youtuber;
+-- 		FETCH cur_rank_youtuber INTO tupla;
+-- 		WHILE FOUND LOOP
+-- 			resultado := resultado || 'Rank: ' || tupla.rank || ',' || 'Youtuber: ' ||tupla.youtuber || '; ';
+-- 			FETCH cur_rank_youtuber INTO tupla;
+-- 			EXIT WHEN NOT FOUND;
+-- 		END LOOP;
+-- 	CLOSE cur_rank_youtuber;
+-- 	RAISE NOTICE '%', resultado;
+-- END;
+-- $$
+
+-- -- Outra forma de realizar a atividade:
+-- DO $$
+-- DECLARE
+-- 	cur_rank_youtuber CURSOR FOR SELECT rank, youtuber FROM tb_top_youtubers WHERE video_count >= 1000
+-- 	AND category IN ('Sports', 'Music');
+-- 	v_rank INT;
+-- 	v_youtuber VARCHAR(200);
+-- BEGIN
+-- 	OPEN cur_rank_youtuber;
+-- 		LOOP
+-- 			FETCH cur_rank_youtuber INTO v_rank, v_youtuber;
+-- 			EXIT WHEN NOT FOUND;
+-- 			RAISE NOTICE 'Rank: %, Youtuber: %', v_rank, v_youtuber;
+-- 		END LOOP;
+-- 	CLOSE cur_rank_youtuber;
+-- END;
+-- $$
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+-- 1.2 Escreva um cursor que exibe todos os nomes dos youtubers em ordem reversa. Para tal
+-- O SELECT deverá ordenar em ordem não reversa
+-- O Cursor deverá ser movido para a última tupla
+-- Os dados deverão ser exibidos de baixo para cima
+
+DO $$
+DECLARE
+cur_nome_youtubers REFCURSOR;
+tupla RECORD;
+BEGIN
+-- scroll para poder voltar ao início
+	OPEN cur_nome_youtubers SCROLL FOR
+	SELECT youtuber
+	FROM
+	tb_top_youtubers;
+		LOOP
+			FETCH cur_nome_youtubers INTO tupla;
+			EXIT WHEN NOT FOUND;
+			IF tupla.youtuber IS NULL THEN
+			DELETE FROM tb_top_youtubers WHERE CURRENT OF cur_nome_youtubers;
+			END IF;
+		END LOOP;
+-- loop para exibir item a item, de baixo para cima
+		LOOP
+			FETCH BACKWARD FROM cur_nome_youtubers INTO tupla;
+			EXIT WHEN NOT FOUND;
+			RAISE NOTICE '%', tupla;
+		END LOOP;
+	CLOSE cur_nome_youtubers;
+END;
+$$
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- 1.3 Um comerciante comprou um produto e quer vendê-lo com um lucro de 45% se o valor da compra for menor que R$20. 
+-- Caso contrário, ele deseja lucro de 30%. Faça um programa que, dado o valor do produto, calcula o valor de venda.
+
+
