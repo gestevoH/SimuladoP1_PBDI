@@ -122,5 +122,98 @@
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
+-- 1.5  Resolva cada exercício a seguir usando LOOP, WHILE, FOR e FOREACH. Quando o
+-- enunciado disser que é preciso “ler” algum valor, gere-o aleatoriamente. 
+-- Gerar inteiros no intervalo de -50 a 50.
+-- https://www.beecrowd.com.br/judge/pt/problems/view/1060
+-- Gerar inteiros no intervalo de 20 a 50.
+-- https://www.beecrowd.com.br/judge/pt/problems/view/1071
 
+-- CREATE OR REPLACE FUNCTION valor_aleatorio_entre (lim_inferior INT, lim_superior
+-- INT) RETURNS INT AS
+-- $$
+-- BEGIN
+-- RETURN FLOOR(RANDOM() * (lim_superior - lim_inferior + 1) + lim_inferior)::INT;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- -- Com FOR
+-- DO $$
+-- DECLARE
+--     v_valor INT;
+--     contador INT := 0;
+-- BEGIN
+--     FOR i IN 1..6 LOOP
+--         v_valor := valor_aleatorio_entre(-50, 50);
+--         RAISE NOTICE 'Valor da vez: %', v_valor;
+--         IF v_valor > 0 THEN
+--             contador := contador + 1;
+--         END IF;
+--     END LOOP;
+--     RAISE NOTICE 'Positivos: %', contador;
+-- END;
+-- $$;
+
+-- -- Com FOREACH
+-- DO $$
+-- DECLARE
+-- 	v_valores INT[] := ARRAY[
+-- 	valor_aleatorio_entre(-50, 50),
+-- 	valor_aleatorio_entre(-50, 50),
+-- 	valor_aleatorio_entre(-50, 50),
+-- 	valor_aleatorio_entre(-50, 50),
+-- 	valor_aleatorio_entre(-50, 50),
+-- 	valor_aleatorio_entre(-50, 50)
+-- 	];
+-- 	v_valor INT;
+-- 	contador INT := 0;
+-- BEGIN
+-- 	FOREACH v_valor IN ARRAY v_valores LOOP
+-- 		RAISE NOTICE 'Valor da vez: %', v_valor;
+-- 		IF v_valor > 0 THEN
+-- 			contador := contador + 1;
+-- 		END IF;
+-- 	END LOOP;
+-- 	RAISE NOTICE 'Positivos: %', contador;
+-- END;
+-- $$
+
+-- -- Com LOOP
+-- DO $$
+-- DECLARE
+-- 	v_valor INT;
+-- 	contador INT := 0;
+-- 	i INT := 1;
+-- BEGIN
+-- 	LOOP
+-- 		EXIT WHEN i > 6;
+-- 		v_valor := valor_aleatorio_entre(-50, 50);
+-- 		RAISE NOTICE 'Valor da vez: %', v_valor;
+-- 		IF v_valor > 0 THEN
+-- 			contador := contador + 1;
+-- 		END IF;
+-- 		i := i + 1;
+-- 	END LOOP;
+-- 	RAISE NOTICE 'Positivos: %', contador;
+-- END;
+-- $$
+
+-- -- Com WHILE
+-- DO $$
+-- DECLARE
+-- 	v_valor INT;
+-- 	contador INT := 0;
+-- 	i INT := 1;
+-- BEGIN
+-- 	WHILE i<= 6 LOOP
+-- 		v_valor := valor_aleatorio_entre(-50, 50);
+-- 		RAISE NOTICE 'Valor da vez: %', v_valor;
+-- 		IF v_valor > 0 THEN
+-- 			contador := contador + 1;
+-- 		END IF;
+-- 		i := i + 1;
+-- 	END LOOP;
+-- 	RAISE NOTICE 'Positivos: %', contador;
+-- END;
+-- $$
 
