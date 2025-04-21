@@ -52,21 +52,15 @@
 -- cur_nome_youtubers REFCURSOR;
 -- tupla RECORD;
 -- BEGIN
--- -- scroll para poder voltar ao início
+-- -- scroll para pegar a ultima linha do cursor
 -- 	OPEN cur_nome_youtubers SCROLL FOR
 -- 	SELECT youtuber
--- 	FROM
--- 	tb_top_youtubers;
--- 		LOOP
--- 			FETCH cur_nome_youtubers INTO tupla;
--- 			EXIT WHEN NOT FOUND;
--- 			IF tupla.youtuber IS NULL THEN
--- 			DELETE FROM tb_top_youtubers WHERE CURRENT OF cur_nome_youtubers;
--- 			END IF;
--- 		END LOOP;
+-- 	FROM tb_top_youtubers
+-- 	ORDER BY youtuber;
+-- 	FETCH LAST FROM cur_nome_youtubers INTO tupla;
 -- -- loop para exibir item a item, de baixo para cima
 -- 		LOOP
--- 			FETCH BACKWARD FROM cur_nome_youtubers INTO tupla;
+-- 			FETCH PRIOR FROM cur_nome_youtubers INTO tupla;
 -- 			EXIT WHEN NOT FOUND;
 -- 			RAISE NOTICE '%', tupla;
 -- 		END LOOP;
